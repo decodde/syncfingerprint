@@ -1,4 +1,5 @@
 # coding : utf-8
+
 import acoustid
 import logging
 from subprocess import run, PIPE
@@ -18,10 +19,13 @@ def audio():
         audio.write(f)
     print('file uploaded successfully')
     #match("audio.wav")
-    return match("audio.wav")
+    match("audio.wav")
+    return "<p>working on it</p>"
 
 def match(path):
+    print("...matching.........")
     result = acoustid.match('HVAjaRnJuC', path)
+    print(result)
     for score,recording_id,title,artist in acoustid.match('HVAjaRnJuC', path):
         print(score, artist , title)
     return result
@@ -29,4 +33,4 @@ def match(path):
 
 if __name__ == "__main__":
     app.logger = logging.getLogger('audio-gui')
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0',ssl_context="adhoc")
