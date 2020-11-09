@@ -26,6 +26,7 @@ def audio():
 
 def audio_fingerprint(path):
     duration,fp_encoded = acoustid.fingerprint_file(path)
+    print("fp encoded is : ",fp_encoded)
     fingerprint,version = chromaprint.decode_fingerprint(fp_encoded)
     print(fingerprint)
     print(duration)
