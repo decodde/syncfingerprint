@@ -20,6 +20,7 @@ def audio():
         audio.write(f)
     print('file uploaded successfully')
     #match("audio.wav")
+    audio_fingerprint("audio.wav")
     match("audio.wav")
     return "<p>working on it</p>"
 
@@ -29,7 +30,7 @@ def audio_fingerprint(path):
     print(fingerprint)
     print(duration)
     print(version)
-    
+
 def match(path):
     
     print("...matching.........")
