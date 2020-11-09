@@ -1,6 +1,7 @@
 # coding : utf-8
 
 import acoustid
+import chromaprint
 import logging
 from subprocess import run, PIPE
 from flask import Flask, render_template, request
@@ -22,7 +23,15 @@ def audio():
     match("audio.wav")
     return "<p>working on it</p>"
 
+def audio_fingerprint(path):
+    duration,fp_encoded = acoustid.fingerprint_file(path)
+    fingerprint,version = chromaprint.decode_fingerprint(fp_encoded)
+    print(fingerprint)
+    print(duration)
+    print(version)
+    
 def match(path):
+    
     print("...matching.........")
     result = acoustid.match('HVAjaRnJuC', path)
     print(result)
