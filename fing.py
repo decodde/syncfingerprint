@@ -3,6 +3,9 @@
 import acoustid
 import chromaprint
 import logging
+import numpy as np
+import matplotlib.pyplot as plt
+
 from subprocess import run, PIPE
 from flask import Flask, render_template, request
 
@@ -28,6 +31,11 @@ def audio_fingerprint(path):
     duration,fp_encoded = acoustid.fingerprint_file(path)
     print("fp encoded is : ",fp_encoded)
     fingerprint,version = chromaprint.decode_fingerprint(fp_encoded)
+    fig = plt.figure()
+    print(fig)
+    bitmap = np.transpose(np.array([[b == '1' for b in list('{:32b}'.format(i & 0xffffffff))] for i in fingerprint]))
+
+    plt.imshow(bitmap)
     print(fingerprint)
     print(duration)
     print(version)
