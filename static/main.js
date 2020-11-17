@@ -38,7 +38,7 @@ function doneEncoding(soundBlob) {
             res['metadata']['music'].forEach(match => {
                 var artists = "",genres = "" ;
                 match.artists.forEach(artist => artists += artist.name + ",");
-                match.genres.forEach(genre => genres += genre + ",");
+                match.genres.forEach(genre => genres += genre.name + ",");
                 document.getElementById("output").innerHTML = `
                     <div class="h-card h-bg-pinkish h-shadow-pinkish">
                         <p class="h-text-bold h-font-md-2 h-text-white"> ${match.title}</p>
