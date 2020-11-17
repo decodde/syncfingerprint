@@ -40,12 +40,7 @@ def audio():
 
 def recognize(path):
     who = re.recognize_by_file(path,0)
-    who = json.loads(json.dumps(who))
-    print(who)
-    if who.get('status').get('msg') == "Success" :
-        return who
-    else :
-        return false
+    return who
     
 
 if __name__ == "__main__":
