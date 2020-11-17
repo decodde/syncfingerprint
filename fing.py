@@ -43,7 +43,8 @@ async def recognize(path):
     who = json.loads(json.dumps(who))
     if who.get('status').get('msg') == "Success" :
         return who
-    else return false
+    else :
+        return false
     
 
 if __name__ == "__main__":
