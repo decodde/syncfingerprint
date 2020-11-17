@@ -32,8 +32,30 @@ function gotBuffers(buffers) {
 
 function doneEncoding(soundBlob) {
     // fetch('/audio', {method: "POST", body: soundBlob}).then(response => $('#output').text(response.text()))
-    fetch('/audio', {method: "POST", body: soundBlob}).then(response => response.text().then(text => {
-        document.getElementById('output').value = text;
+    fetch('/audio', {method: "POST", body: soundBlob}).then(response => response.json().then(res => {
+        document.getElementById("output").innerHTML = "";
+        if(res.status == "Success"){
+            res['metadata']['music'].forEach(match => {
+                var artists = "",genres = "" ;
+                match.artists.forEach(artist => artists += artist.name + ",");
+                match.genres.forEach(genre => genres += genre + ",");
+                document.getElementById("output").innerHTML = `
+                    <div class="h-card h-bg-pinkish h-shadow-pinkish">
+                        <p class="h-text-bold h-font-md-2 h-text-white"> ${match.title}</p>
+                        <p class="h-text h-font-md h-text-black> Artists : 
+                            <span class="h-text h-font-md-2 h-text-white"> ${artists} </span>
+                        </p>
+                        <p class = "h-text h-font-tiny-1 " > Genres : ${genres} </p>
+                        <p class = "h-text-bold"> Score : ${match.score}</p>
+                    </div>
+                `
+            })
+            
+        }
+        else {
+            console.log(res)
+            document.getElementById("output").innerHTML = `<div class="h-card h-bg-red"> <p class="h-text-bold h-text-white">Sorry, we couldnot identify the song </p></div>`;
+        }
     }));
     recIndex++;
 }

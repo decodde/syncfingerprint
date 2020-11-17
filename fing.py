@@ -5,8 +5,7 @@ from acrcloud.recognizer import ACRCloudRecognizer
 
 import logging
 
-import numpy as np
-import matplotlib.pyplot as plt
+import json
 
 from subprocess import run, PIPE
 from flask import Flask, render_template, request
@@ -35,13 +34,16 @@ def audio():
     with open('./audio.wav', 'wb') as audio:
         audio.write(f)
     print('file uploaded successfully')
-    recognize("audio.wav")
-    return "<p>working on it</p>"
+    r = await recognize("audio.wav")
+    return r
 
 
-def recognize(path):
+def async recognize(path):
     who = re.recognize_by_file(path,0)
-    print(who)
+    who = json.loads(json.dumps(who))
+    if who.get('status').get('msg') == "Success" :
+        return who
+    else return false
     
 
 if __name__ == "__main__":
