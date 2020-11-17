@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-
+<div class="h-bg-black">
     <div class="h-card">
         <div class="container">
             <h6 class="h-text-bold h-text-black">
@@ -28,9 +28,10 @@
         </p>
         <div id="output" class="h-center"></div>
     </div>
-    <div class="h-bg-purple">
+    <div class="h-bg-purple h-card">
         <p class="h-text h-font-tiny-2 h-text-left">from TechCre with love.</p>
     </div>
+</div>
     <script src="{{ url_for('static', filename='h/h.js') }}"></script>
     <script src="{{ url_for('static', filename='recorder.js') }}"></script>
     <script src="{{ url_for('static', filename='audiodisplay.js') }}"></script>
