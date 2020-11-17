@@ -38,7 +38,7 @@ def audio():
     return r
 
 
-def async recognize(path):
+async def recognize(path):
     who = re.recognize_by_file(path,0)
     who = json.loads(json.dumps(who))
     if who.get('status').get('msg') == "Success" :
