@@ -32,13 +32,15 @@ function gotBuffers(buffers) {
 
 function doneEncoding(soundBlob) {
     // fetch('/audio', {method: "POST", body: soundBlob}).then(response => $('#output').text(response.text()))
+    
     fetch('/audio', {method: "POST", body: soundBlob}).then(response => response.json().then(res => {
         document.getElementById("output").innerHTML = "";
+        console.log(res)
         if(res.status.msg == "Success"){
             res['metadata']['music'].forEach(match => {
                 var artists = "",genres = "" ;
-                match.artists.forEach(artist => artists += artist.name + ",");
-                match.genres.forEach(genre => genres += genre.name + ",");
+                match.artists ? match.artists.forEach(artist => artists += artist.name + ",") : "unknown";
+                match.genres ? match.genres.forEach(genre => genres += genre.name + ",") : "unknown";
                 document.getElementById("output").innerHTML = `
                     <div class="h-card h-bg-pinkish h-shadow-pinkish">
                         <p class="h-text-bold h-font-md-2 h-text-white"> ${match.title}</p>
