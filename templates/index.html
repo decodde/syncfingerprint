@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
 
-
     <div class="h-card">
         <div class="container">
             <h6 class="h-text-bold h-text-black">
@@ -12,13 +11,17 @@
     </div>
 
     <div class="container">
-        <canvas class="h-card h-bg-white h-outline-black h-shadow-black" id="analyser" style="width:100%;height:200px;" width="1024" height="300"></canvas>
-        <p>
+        <div id="load" style="z-index: 20;" class="h-pail-center h-card h-bg-white h-hide">
+            <img src="{{ url_for('static', filename='loading.gif') }}">
+            <p class="h-text h-font-md-2">Song matching in progress</p>
+        </div>
+        <canvas class="h-card h-bg-white h-outline-white h-shadow-black" id="analyser" style="width:100%;height:200px;" width="1024" height="300"></canvas>
+        <p class="h-center">
             <button id="init" class="h-button h-text-bold h-text-white h-bg-lightblue h-shadow-lightblue" onclick="unpause()">Start listening</button>
-            <button id="start" class="h-button h-text-bold h-text-white h-bg-blight h-shadow-blight" onclick="startRecording()" disabled>Start</button>
-            <button id="stop" class="h-button h-text-bold h-text-white h-bg-red h-shadow-red" onclick="stopRecording()" disabled>Stop</button>
+            <button id="start" class="h-button h-text-bold h-text-white h-bg-blight" onclick="startRecording()" disabled>Start</button>
+            <button id="stop" class="h-button h-text-bold h-text-white h-bg-red " onclick="stopRecording()" disabled>Stop</button>
         </p>
-        <div id="output"></div>
+        <div id="output" class="h-center"></div>
     </div>
 
     <script src="{{ url_for('static', filename='h/h.js') }}"></script>

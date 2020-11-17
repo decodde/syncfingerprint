@@ -36,27 +36,27 @@ function doneEncoding(soundBlob) {
     fetch('/audio', {method: "POST", body: soundBlob}).then(response => response.json().then(res => {
         document.getElementById("output").innerHTML = "";
         console.log(res)
+        H.id("load").classList.replace("h-show","h-hide");
         if(res.status.msg == "Success"){
             res['metadata']['music'].forEach(match => {
                 var artists = "",genres = "" ;
                 match.artists ? match.artists.forEach(artist => artists += artist.name + ",") : "unknown";
                 match.genres ? match.genres.forEach(genre => genres += genre.name + ",") : "unknown";
                 document.getElementById("output").innerHTML = `
-                    <div class="h-card h-bg-pinkish h-shadow-pinkish">
+                    <div class="h-col-6 h-card h-bg-pinkish h-shadow-pinkish">
                         <p class="h-text-bold h-font-md-2 h-text-white"> ${match.title}</p>
-                        <p class="h-text h-font-md h-text-black> Artists : 
+                        <p class="h-text-bold h-font-md h-text-white> Artists : 
                             <span class="h-text h-font-md-2 h-text-white"> ${artists} </span>
                         </p>
-                        <p class = "h-text h-font-tiny-1 " > Genres : ${genres} </p>
-                        <p class = "h-text-bold"> Score : ${match.score}</p>
+                        <p class = "h-text-white h-font-tiny-1 " > Genres : ${genres} </p>
+                        <p class = "h-text-bold h-text-white"> Score : ${match.score}</p>
                     </div>
                 `
             })
-            
         }
         else {
             console.log(res)
-            document.getElementById("output").innerHTML = `<div class="h-card h-bg-red"> <p class="h-text-bold h-text-white">Sorry, we couldnot identify the song </p></div>`;
+            document.getElementById("output").innerHTML = `<div class="h-card h-bg-red"> <p class="h-text h-text-white">Sorry, we could not identify the song </p></div>`;
         }
     }));
     recIndex++;
@@ -68,10 +68,12 @@ function stopRecording() {
     document.getElementById('stop').disabled = true;
     document.getElementById('start').removeAttribute('disabled');
     audioRecorder.getBuffers(gotBuffers);
+    H.pop("success","Recording stopped",5000);
+    H.id("load").classList.replace("h-hide","h-show");
 }
 
 function startRecording() {
-
+    H.pop("success","Recording started",5000);
     // start recording
     if (!audioRecorder)
         return;
