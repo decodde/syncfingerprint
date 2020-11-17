@@ -29,18 +29,19 @@ def index():
 
 
 @app.route('/audio', methods=['POST'])
-async def audio():
+def audio():
     f = request.data
     with open('./audio.wav', 'wb') as audio:
         audio.write(f)
     print('file uploaded successfully')
-    r = await recognize("audio.wav")
+    r = recognize("audio.wav")
     return r
 
 
-async def recognize(path):
+def recognize(path):
     who = re.recognize_by_file(path,0)
     who = json.loads(json.dumps(who))
+    print(who)
     if who.get('status').get('msg') == "Success" :
         return who
     else :
