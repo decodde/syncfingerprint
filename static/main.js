@@ -34,7 +34,7 @@ function doneEncoding(soundBlob) {
     // fetch('/audio', {method: "POST", body: soundBlob}).then(response => $('#output').text(response.text()))
     fetch('/audio', {method: "POST", body: soundBlob}).then(response => response.json().then(res => {
         document.getElementById("output").innerHTML = "";
-        if(res.status == "Success"){
+        if(res.status.msg == "Success"){
             res['metadata']['music'].forEach(match => {
                 var artists = "",genres = "" ;
                 match.artists.forEach(artist => artists += artist.name + ",");
