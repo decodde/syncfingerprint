@@ -29,7 +29,7 @@ def index():
 
 
 @app.route('/audio', methods=['POST'])
-def audio():
+async def audio():
     f = request.data
     with open('./audio.wav', 'wb') as audio:
         audio.write(f)
