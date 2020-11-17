@@ -1,8 +1,10 @@
 # coding : utf-8
 
-import acoustid
-import chromaprint
+import os, sys
+from acrcloud.recognizer import ACRCloudRecognizer
+
 import logging
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -10,6 +12,17 @@ from subprocess import run, PIPE
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
+
+if __name__ == '__main__':
+    config = {
+        #Replace "xxxxxxxx" below with your project's host, access_key and access_secret.
+        'host':'identify-eu-west-1.acrcloud.com',
+        'access_key':'051b2d4b654e73a0d73f68030a186f05', 
+        'access_secret':'DG8rgtSnKOrCyRAhbu4HcEQ1RG69E9Pq7qeeVf7h',
+        'timeout':10 # seconds
+    }
+
+    re = ACRCloudRecognizer(config)
 
 @app.route('/')
 def index():
@@ -22,32 +35,13 @@ def audio():
     with open('./audio.wav', 'wb') as audio:
         audio.write(f)
     print('file uploaded successfully')
-    #match("audio.wav")
-    audio_fingerprint("audio.wav")
-    match("audio.wav")
+    recognize("audio.wav")
     return "<p>working on it</p>"
 
-def audio_fingerprint(path):
-    duration,fp_encoded = acoustid.fingerprint_file(path)
-    print("fp encoded is : ",fp_encoded)
-    fingerprint,version = chromaprint.decode_fingerprint(fp_encoded)
-    fig = plt.figure()
-    print(fig)
-    bitmap = np.transpose(np.array([[b == '1' for b in list('{:32b}'.format(i & 0xffffffff))] for i in fingerprint]))
 
-    plt.imshow(bitmap)
-    print(fingerprint)
-    print(duration)
-    print(version)
-
-def match(path):
-    
-    print("...matching.........")
-    result = acoustid.match('HVAjaRnJuC', path)
-    print(result)
-    for score,recording_id,title,artist in acoustid.match('HVAjaRnJuC', path):
-        print(score, artist , title)
-    return result
+def recognize(path):
+    who = re.recognize_by_file(path,0)
+    print(who)
     
 
 if __name__ == "__main__":
