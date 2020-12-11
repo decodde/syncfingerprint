@@ -10,6 +10,8 @@ import json
 from subprocess import run, PIPE
 from flask import Flask, render_template, request
 
+import math, random
+
 app = Flask(__name__)
 
 if __name__ == '__main__':
@@ -37,6 +39,16 @@ def audio():
     r = recognize("audio.wav")
     return r
 
+@app.route('/syncnize', methods=['POST'])
+def syncnize():
+    f = request.data
+    rand = str(round(random()*10**20))
+    tempName = "./" + rand + ".wav"
+    with open(tempName , 'wb') as audio:
+        audio.write(f)
+    print('file uploaded successfully')
+    r = recognize(tempName)
+    return r
 
 def recognize(path):
     who = re.recognize_by_file(path,0)
@@ -44,5 +56,5 @@ def recognize(path):
     
 
 if __name__ == "__main__":
-    app.logger = logging.getLogger('audio-gui')
+    app.logger = logging.getLogger('syncnize')
     app.run(host='0.0.0.0',ssl_context="adhoc")

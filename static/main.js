@@ -29,34 +29,34 @@ var recIndex = 0;
 function gotBuffers(buffers) {
     audioRecorder.exportMonoWAV(doneEncoding);
 }
-
+var guine = new guiNe();
 function doneEncoding(soundBlob) {
-    // fetch('/audio', {method: "POST", body: soundBlob}).then(response => $('#output').text(response.text()))
-    
+    /* fetch('/audio', {method: "POST", body: soundBlob}).then(response => $('#output').text(response.text()))*/    
+    guine.loader.show(1);
     fetch('/audio', {method: "POST", body: soundBlob}).then(response => response.json().then(res => {
         document.getElementById("output").innerHTML = "";
         console.log(res)
-        H.id("load").classList.replace("h-show","h-hide");
+        guine.loader.close();
         if(res.status.msg == "Success"){
             res['metadata']['music'].forEach(match => {
                 var artists = "",genres = "" ;
                 match.artists ? match.artists.forEach(artist => artists += artist.name + ",") : "unknown";
                 match.genres ? match.genres.forEach(genre => genres += genre.name + ",") : "unknown";
                 document.getElementById("output").innerHTML = `
-                    <div class="h-col-6 h-card h-bg-pinkish h-anim-rollin-left h-shadow-pinkish">
-                        <p class="h-text-bold h-font-md-2 h-text-white"> ${match.title}</p>
-                        <p class="h-text-bold h-text-white"> Artists : 
-                            <span class="h-text h-font-md-2 h-text-white"> ${artists} </span>
+                    <div class="gui-ne-col-6 gui-ne-card-df">
+                        <h4 class="gui-ne-text-bold "> ${match.title}</h4>
+                        <p class="gui-ne-text gui-ne-text-bold"> Artists : 
+                            <span class="gui-ne-text"> ${artists} </span>
                         </p>
-                        <p class = "h-text h-text-white h-font-tiny-1 " > Genres : ${genres} </p>
-                        <p class = "h-text-bold h-text-white"> Score : ${match.score}</p>
+                        <h5 class = "gui-ne-text" > Genres : ${genres} </h5>
+                        <p class = "gui-ne-text"> Score : ${match.score}</p>
                     </div>
                 `
             })
         }
         else {
             console.log(res)
-            document.getElementById("output").innerHTML = `<div class="h-card h-bg-red"> <p class="h-text h-text-white">Sorry, we could not identify the song. You can try recording for a longer period </p></div>`;
+            document.getElementById("output").innerHTML = `<div class="gui-ne-card-list"> <p class="gui-ne-text">Sorry, we could not identify the song. You can try recording for a longer period </p></div>`;
         }
     }));
     recIndex++;
@@ -68,13 +68,13 @@ function stopRecording() {
     document.getElementById('stop').disabled = true;
     document.getElementById('start').removeAttribute('disabled');
     audioRecorder.getBuffers(gotBuffers);
-    H.pop("success","Recording stopped",5000);
-    H.id("load").classList.replace("h-hide","h-show");
+    guine.pop.show(["top","left"],4000,"Recording stopped");
+    guine.loader.close()
 }
 
 function startRecording() {
     document.getElementById("output").innerHTML =""
-    H.pop("success","Recording started",5000);
+    guine.pop.show(["top","left"],4000,"Recording started");
     // start recording
     if (!audioRecorder)
         return;
