@@ -1,5 +1,5 @@
 /* Copyright 2013 Chris Wilson
-
+    Modified by @decodde
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
@@ -15,7 +15,14 @@
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-var audioContext = new AudioContext();
+
+var audioContext;
+
+// Existing code unchanged.
+window.onload = function() {
+    mic_init();
+  }
+
 var audioInput = null,
     realAudioInput = null,
     inputPoint = null,
@@ -202,6 +209,11 @@ function initAudio() {
 }
 
 window.addEventListener('load', initAudio);
+
+mic_init = () => {
+    audioContext = new AudioContext();
+    return audioContext;
+}
 
 function unpause() {
     document.getElementById('init').style.display = 'none';
